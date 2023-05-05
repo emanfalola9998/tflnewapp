@@ -87,11 +87,7 @@ export function Main(): JSX.Element{
     return(
         <>
             <h1 className="title">Bus Lines</h1>
-            <button className="previous-pastes" 
-            onClick={() => setRefreshTimes(true)}
-            >
-                Refresh
-            </button>
+            <h2>Bus Times </h2>
             
             <br />
             <div>
@@ -191,6 +187,11 @@ export function Main(): JSX.Element{
                     }
                 >
                     Reset
+                </button>
+                <button className="previous-pastes" 
+                onClick={() => setRefreshTimes(true)}
+                >
+                    Refresh
                 </button>
                 <Disruption />
         </>

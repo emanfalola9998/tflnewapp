@@ -9,6 +9,7 @@ dotenv.config();
 export default function Disruption(): JSX.Element{
     const [disruptions, setDisruptions] = useState<disruptionInterface[]>([])
     const [mode, setMode] = useState<string>("none") 
+    const [refresh, setRefresh] = useState(false)
     const [specificDisruption, setSpecificDisruption] = useState<disruptionInterface>({
     $type: "",
     atcoCode: "",
@@ -37,7 +38,7 @@ export default function Disruption(): JSX.Element{
             }
         }
         getDisruptions()
-    }, [mode])
+    }, [mode,refresh])
 
     
     
@@ -50,6 +51,7 @@ export default function Disruption(): JSX.Element{
     return (
         <>
         <hr></hr>
+        <h2>Disruption Data</h2>
             <select onChange={(e) => setMode(e.target.value)} value={mode}>
                     <option>none</option>
                     <option>tube</option>
@@ -107,6 +109,11 @@ export default function Disruption(): JSX.Element{
                 }
             >
                 Reset
+                </button>
+                <button className="previous-pastes" 
+                onClick={() => setRefresh(true)}
+                >
+                    Refresh
                 </button>
         
         </>
