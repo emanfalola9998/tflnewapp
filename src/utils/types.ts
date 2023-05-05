@@ -30,3 +30,15 @@ export interface linesInterface {
   }
     }
 
+export interface disruptionInterface{
+    $type: string;
+    atcoCode: string;
+    fromDate: string;
+    toDate: string;
+    description: string;
+    commonName: string;
+    type: string;
+    mode: string;
+    stationAtcoCode: string;
+    appearance: string;
+}

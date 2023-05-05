@@ -1,0 +1,105 @@
+body{
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #9BC1BC;
+}
+
+.title {
+    color: #ED6A5A;
+    text-align: center;
+    font-weight: 300;
+    font-size: 50px;
+    text-decoration: underline;
+    background-color: #F4F1BB;
+    width: 700px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.allpastes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-title {
+   text-align: center;
+   margin-bottom: 10px;
+}
+
+.add-paste-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    
+}
+
+.previous-pastes{
+    background-color: #F4F1BB;
+    margin: auto;
+    width: 8%;
+    border: 2px solid teal;
+    border-radius: 5%;
+    padding: 15px;
+}
+
+.each-paste{
+    background-color: #eee0b9;
+    border: solid 2px teal;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px;
+}
+.paragraph{
+    color:#0f1953;
+    text-align: center;
+    font-size: larger;
+    background-color: #0693a0;
+    border-radius: 5px;
+    width: 300px;
+    margin:15px auto;
+
+}
+
+.paste-title{
+    font-size: 25px;
+    font-weight: bold;
+    color: #0D5C63;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.paste-language{
+    font-size: 20px;
+    font-weight: bold;
+    color: #0693a0;
+}
+
+.paste-code{
+    color: #0d3033;
+    margin-top: 10px;
+}
+
+.comment{
+    font-style: italic;
+    color: #E83151;
+}
+
+.submit-comment{
+    text-align: center;
+}
+
+.showMoreButton{
+    background: none;
+    border:none;
+    cursor:pointer;
+    color: purple;
+    text-decoration: underline;
+}
+
+.website-background{
+    background-color: #7fadb3;
+    padding: 10px;
+    border-radius: 20px;
+}

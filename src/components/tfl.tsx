@@ -3,6 +3,10 @@ import axios from "axios";
 import React from "react";
 import { types } from "util";
 import { linesInterface } from "../utils/types";
+import Disruption  from "./Disruptions";
+import * as dotenv from 'dotenv'
+dotenv.config();
+
 
 export function Main(): JSX.Element{
     const [specificLine, setSpecificLine] = useState<linesInterface>({
@@ -40,11 +44,14 @@ export function Main(): JSX.Element{
     const [refreshTimes, setRefreshTimes] = useState(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [routeNumber, setRouteNumber] = useState<string>("106")
-    
+    const API_KEY = process.env.API_KEY
+    const APP_KEY = process.env.APP_KEY
+
+
     useEffect(() => {
         async function getAllLines(){
             try{
-                const response = await axios.get(`https://api.tfl.gov.uk/Line/${routeNumber}/Arrivals?app_id=289effd732914b13af2cee66a3876905&app_key=587856dbb7ae4388b5bde2edb573fedd`)
+                const response = await axios.get(`https://api.tfl.gov.uk/Line/${routeNumber}/Arrivals?app_id=${APP_KEY}&${API_KEY}`)
                 setAllLines(response.data)
             }
             catch (error){
@@ -58,10 +65,10 @@ export function Main(): JSX.Element{
     const filteredRouteLines = routeLine(allLines, searchTerm);
 
     function routeLine(
-    getPlayers: linesInterface[],
+    getRoutes: linesInterface[],
     searchTerm: string
     ) {
-    const routeSearch = getPlayers.filter(
+    const routeSearch = getRoutes.filter(
         (obj) =>
         obj["stationName"].toLowerCase().includes(searchTerm.toLowerCase()) ||
         obj["destinationName"].toLowerCase().includes(searchTerm.toLowerCase())||
@@ -79,8 +86,8 @@ export function Main(): JSX.Element{
 
     return(
         <>
-            <h1>Bus Lines</h1>
-            <button
+            <h1 className="title">Bus Lines</h1>
+            <button className="previous-pastes" 
             onClick={() => setRefreshTimes(true)}
             >
                 Refresh
@@ -88,7 +95,7 @@ export function Main(): JSX.Element{
             
             <br />
             <div>
-                <input
+                <input className="input-title"
                 placeholder="Type in station Name"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -97,23 +104,26 @@ export function Main(): JSX.Element{
             </div>
             <div>
             <input
+                className="input-title"
                 placeholder="Please enter desired route number"
                 onChange={(e) => {
                     setRouteNumber(e.target.value);
                 }}
                 />
+                <br></br>
                 Displaying {filteredRouteLines.length} out of {allLines.length}
             </div>
             {sortedRouteLines.slice(0, 5).map((line) => {
-            const timeText = Math.floor(line.timeToStation) <= 60 ? "due" : `${Math.floor(line.timeToStation/60)} mins`;
+            const timeText = Math.floor(line.timeToStation) <= 60 ? "is due" : `in ${Math.floor(line.timeToStation/60)} mins`;
             return (
                 <button
+                
                 type="button"
-                className="btn btn-primary"
+                className="add-paste-buttons"
                 onClick={() => setSpecificLine(line)}
                 key={line.id}
                 >
-                {line.stationName} to {line.destinationName} in {timeText}
+                {line.stationName} to {line.destinationName}  {timeText}
                 </button>
             );
             })}
@@ -145,6 +155,7 @@ export function Main(): JSX.Element{
                 )}
                 <br />
                 <button
+                    className="previous-pastes"
                     onClick={() =>
                         setSpecificLine({
                             $type: "",
@@ -181,6 +192,7 @@ export function Main(): JSX.Element{
                 >
                     Reset
                 </button>
+                <Disruption />
         </>
 
     )
