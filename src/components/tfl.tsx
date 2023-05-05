@@ -39,7 +39,7 @@ export function Main(): JSX.Element{
     const [allLines, setAllLines] = useState<linesInterface[]>([])
     const [refreshTimes, setRefreshTimes] = useState(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
-    const [routeNumber, setRouteNumber] = useState<number>(106)
+    const [routeNumber, setRouteNumber] = useState<string>("106")
     
     useEffect(() => {
         async function getAllLines(){
@@ -52,11 +52,7 @@ export function Main(): JSX.Element{
             }
         }
         getAllLines()
-    },[refreshTimes,searchTerm, routeNumber])
-    // !== 0 &&
-
-    
-    
+    },[refreshTimes,searchTerm, routeNumber])   
 
 
     const filteredRouteLines = routeLine(allLines, searchTerm);
@@ -77,34 +73,13 @@ export function Main(): JSX.Element{
     }
 
     const sortedRouteLines = filteredRouteLines.sort((a, b) =>
-    a.stationName.toLowerCase() > b.stationName.toLowerCase() ? 1 : -1
+    a.timeToStation > b.timeToStation ? 1 : -1
     );
-    // const sortedRouteLines = filteredRouteLines.sort((a, b) =>
-    // a.last_name.toLowerCase() > b.last_name.toLowerCase() ? 1 : -1
-    // );
-
-
 
 
     return(
         <>
             <h1>Bus Lines</h1>
-            {/* {allLines.map((line) => (
-                <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => setSpecificLine(line)}
-                key={line.id}
-            >
-                {line.stationName}
-                </button>
-            ))} */}
-            {allLines.map((line) => (
-                <div key={line.id}>
-                {line.stationName}
-                {line.destinationName}
-                {line.timeToStation}
-                </div>))}
             <button
             onClick={() => setRefreshTimes(true)}
             >
@@ -118,30 +93,32 @@ export function Main(): JSX.Element{
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                Displaying {filteredRouteLines.length} out of {allLines.length}
+                
             </div>
-            <br />
             <div>
-                <input
+            <input
                 placeholder="Please enter desired route number"
-                value={routeNumber}
-                onChange={(e) => setRouteNumber(parseInt(e.target.value))}
+                onChange={(e) => {
+                    setRouteNumber(e.target.value);
+                }}
                 />
                 Displaying {filteredRouteLines.length} out of {allLines.length}
             </div>
-            {sortedRouteLines.map((line) => (
+            {sortedRouteLines.slice(0, 5).map((line) => {
+            const timeText = Math.floor(line.timeToStation) <= 60 ? "due" : `${Math.floor(line.timeToStation/60)} mins`;
+            return (
                 <button
                 type="button"
                 className="btn btn-primary"
                 onClick={() => setSpecificLine(line)}
                 key={line.id}
-            >
-                {line.stationName} to {line.destinationName}
-
-                {/* {line.lineName} */}
-                {/* {line.timeToStation} */}
+                >
+                {line.stationName} to {line.destinationName} in {timeText}
                 </button>
-            ))}
+            );
+            })}
+
+
 
             {specificLine.id !== "0" && (
                     <ul className="list-group">
@@ -155,17 +132,14 @@ export function Main(): JSX.Element{
                         LineName: <b>{specificLine.lineName}</b>
                     </li>
                     <li className="list-group-item">
-                        <b>
-                        DestinationName:{specificLine.destinationName}
-                        </b>
+                        DestinationName:<b> {specificLine.destinationName}</b>
                     </li>
                     <li className="list-group-item">
                         Time to Station: <b>{specificLine.timeToStation}</b>
                     </li>
                     <li className="list-group-item">
-                        <b>
-                        Expected Arrival ({specificLine.expectedArrival})
-                        </b>
+
+                        Expected Arrival: <b>({specificLine.expectedArrival})</b>
                     </li>
                     </ul>
                 )}
