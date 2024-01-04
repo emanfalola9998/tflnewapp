@@ -4,9 +4,11 @@
   "private": true,
   "license": "CC-BY-NC-ND-4.0",
   "dependencies": {
+    "autoprefixer": "^10.4.16",
     "axios": "^0.27.2",
     "config": "^3.3.7",
     "cors": "^2.8.5",
+    "postcss-cli": "^11.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -20,7 +22,7 @@
     "type-check": "tsc --noEmit",
     "test": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build"
   },
   "browserslist": {
@@ -48,6 +50,7 @@
     "@typescript-eslint/parser": "^4.26.1",
     "eslint": "^7.28.0",
     "eslint-plugin-react": "^7.24.0",
-    "prettier": "2.3.1"
+    "prettier": "2.3.1",
+    "tailwindcss": "^3.4.0"
   }
 }
