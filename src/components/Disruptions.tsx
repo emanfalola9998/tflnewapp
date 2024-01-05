@@ -23,10 +23,10 @@ export default function Disruption(): JSX.Element {
         appearance: ""
     })
 
-    const API_KEY = process.env.API_KEY
+    // const API_KEY = process.env.API_KEY
     const APP_KEY = process.env.APP_KEY
 
-    const API = process.env.APIfares
+    // const API = process.env.APIfares
     useEffect(() => {
         async function getDisruptions() {
             try {
@@ -38,7 +38,7 @@ export default function Disruption(): JSX.Element {
             }
         }
         getDisruptions()
-    }, [mode, refresh])
+    }, [mode, refresh, APP_KEY])
 
 
 

@@ -2,7 +2,7 @@ import '../App.css';
 import tflpng from '../images/tflpng.png'
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { types } from "util";
+// import { types } from "util";
 import { linesInterface } from "../utils/types";
 import Disruption from "./Disruptions";
 import * as dotenv from 'dotenv'
@@ -61,7 +61,7 @@ export function Main(): JSX.Element {
             }
         }
         getAllLines()
-    }, [refreshTimes, searchTerm, routeNumber])
+    }, [refreshTimes, searchTerm, routeNumber, API_KEY, APP_KEY])
 
 
     const filteredRouteLines = routeLine(allLines, searchTerm);
