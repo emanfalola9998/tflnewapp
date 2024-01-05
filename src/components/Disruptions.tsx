@@ -42,7 +42,7 @@ export default function Disruption(): JSX.Element {
 
 
 
-
+    
 
 
 
@@ -62,8 +62,8 @@ export default function Disruption(): JSX.Element {
                         <option className="dropdown-item">bus</option>
 
                     </select>
-                    <div className='btn-toolbar' role={'toolbar'} aria-label="Toolbar with button groups col-1 p-8">
-                        <div className='btn-group col-1 ' role="group" aria-label='First group' >
+                    <div className='flex btn-toolbar p-0' role={'toolbar'} aria-label="Toolbar with button groups" >
+                        <div className='btn-group col-1 pl-0 ' role="group" aria-label='First group' >
 
                             {mode !== "none" && disruptions.slice(0, 3).map((line) => {
                                 return (
@@ -79,8 +79,7 @@ export default function Disruption(): JSX.Element {
                             })}
                         </div>
                     </div>
-                </div>
-                <div>
+                <div className="p-0">
 
                     {specificDisruption.commonName !== "0" && (
                         <ul className="list-group">
@@ -101,7 +100,7 @@ export default function Disruption(): JSX.Element {
                     <br />
 
                     <button
-                        className="previous-pastes"
+                        className="btn btn-secondary mr-6"
                         onClick={() =>
                             setSpecificDisruption({
                                 $type: "",
@@ -122,12 +121,13 @@ export default function Disruption(): JSX.Element {
                     >
                         Reset
                     </button>
-                    <button className="previous-pastes"
+                    <button className="btn btn-secondary mr-6"
                         onClick={() => setRefresh(true)}
                     >
                         Refresh
                     </button>
 
+                </div>
                 </div>
 
             </div>
