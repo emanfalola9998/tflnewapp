@@ -8,6 +8,8 @@ import * as dotenv from 'dotenv'
 import Header from './Header/Header';
 import BusTimes from './BusTimes/BusTimes';
 import { disruptionInterface } from "../utils/types";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
 
 dotenv.config();
 
@@ -106,26 +108,40 @@ export function Main(): JSX.Element {
 
     return (
         <>
-            <Header />
-            
-            <BusTimes sortedRouteLines={sortedRouteLines}
-            searchTerm ={searchTerm}
-            specificLine={specificLine} 
-            setSpecificLine={setSpecificLine} 
-            setRefreshTimes={setRefreshTimes} 
-            setSearchTerm={setSearchTerm} 
-            setRouteNumber={setRouteNumber} />
+                
+                <Header />
+                    <BusTimes sortedRouteLines={sortedRouteLines}
+                    searchTerm ={searchTerm}
+                    specificLine={specificLine} 
+                    setSpecificLine={setSpecificLine} 
+                    setRefreshTimes={setRefreshTimes} 
+                    setSearchTerm={setSearchTerm} 
+                    setRouteNumber={setRouteNumber} />
+                    <Disruption
+                    disruptions={disruptions} 
+                    setDisruptions={setDisruptions} 
+                    mode={mode} 
+                    setMode={setMode} 
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                    setSpecificDisruption={setSpecificDisruption}
+                    specificDisruption={specificDisruption}
+                    />
+            <BrowserRouter>
+            <Routes>
+                <Route path="/" 
+                />
+                <Route path="/Bus-times" 
+                />
+                <Route path="/Disruptions" />
+                
+            </Routes>
+            </BrowserRouter>
+    
 
-            <Disruption
-            disruptions={disruptions} 
-            setDisruptions={setDisruptions} 
-            mode={mode} 
-            setMode={setMode} 
-            refresh={refresh}
-            setRefresh={setRefresh}
-            setSpecificDisruption={setSpecificDisruption}
-            specificDisruption={specificDisruption}
-            />
+            
+
+        
         </>
     )
 }
