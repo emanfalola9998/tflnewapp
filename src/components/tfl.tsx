@@ -1,11 +1,14 @@
-import '../App.css';
-import tflpng from '../images/tflpng.png'
+import './tfl.scss'
 import { useState, useEffect } from "react";
 import axios from "axios";
 // import { types } from "util";
 import { linesInterface } from "../utils/types";
-import Disruption from "./Disruptions";
+import Disruption from "./Disruptions/Disruptions";
 import * as dotenv from 'dotenv'
+import Header from './Header/Header';
+import BusTimes from './BusTimes/BusTimes';
+import { disruptionInterface } from "../utils/types";
+
 dotenv.config();
 
 
@@ -46,6 +49,21 @@ export function Main(): JSX.Element {
     const [refreshTimes, setRefreshTimes] = useState(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [routeNumber, setRouteNumber] = useState<string>("106")
+    const [disruptions, setDisruptions] = useState<disruptionInterface[]>([])
+    const [mode, setMode] = useState<string>("none")
+    const [refresh, setRefresh] = useState(false)
+    const [specificDisruption, setSpecificDisruption] = useState<disruptionInterface>({
+        $type: "",
+        atcoCode: "",
+        fromDate: "",
+        toDate: "",
+        description: "",
+        commonName: "0",
+        type: "",
+        mode: "",
+        stationAtcoCode: "",
+        appearance: ""
+    })
     const API_KEY = process.env.API_KEY
     const APP_KEY = process.env.APP_KEY
 
@@ -88,150 +106,26 @@ export function Main(): JSX.Element {
 
     return (
         <>
-            <section className="gradient-background">
-                <div className="container col-xxl-8  ">
-                    <div className="row flex-lg-row-reverse align-items-center g-5 ">
-                        <div className="col-10 col-sm-8 col-lg-6">
-                            <div>
-                                <img src={tflpng} className="d-block mx-lg-auto img-fluid mt-4" alt="Bootstrap Themes" height="200"
-                                    loading="lazy" />
-                            </div>
-                        </div>
-                    </div>
-                    <h1 className="display-2 fw-bold text-body-emphasis lh-1  mt-n4 ">Bus Lines</h1>
+            <Header />
+            
+            <BusTimes sortedRouteLines={sortedRouteLines}
+            searchTerm ={searchTerm}
+            specificLine={specificLine} 
+            setSpecificLine={setSpecificLine} 
+            setRefreshTimes={setRefreshTimes} 
+            setSearchTerm={setSearchTerm} 
+            setRouteNumber={setRouteNumber} />
 
-                    <br />
-
-                </div>
-            </section>
-
-            {/* <div> */}
-            {/* <div className='input-group mb-3'>
-                    <div className='input-group-prepend'>
-                        <input className="input-group-text"
-                            placeholder="Please enter desired route number"
-                            onChange={(e) => {
-                                setRouteNumber(e.target.value);
-                            }}
-                        />
-                    </div>
-                </div> */}
-            {/* <br></br> */}
-            {/* Displaying {filteredRouteLines.length} out of {allLines.length} */}
-            {/* </div> */}
-            <div className='container mt-5'>
-                <h2 className='display-8 '>Bus Times </h2>
-                <div className='input-group mb-3'>
-                    <div className='input-group-prepend '>
-                        <input className="input-group-text"
-                            placeholder="Type in station Name"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        <input className="input-group-text"
-                            placeholder="Enter route number"
-                            onChange={(e) => {
-                                setRouteNumber(e.target.value);
-                            }}
-                        />
-
-                        <div className='btn-toolbar' role={'toolbar'} aria-label="Toolbar with button groups">
-                            <div className='btn-group mr-2' role="group" aria-label='First group' >
-                                {sortedRouteLines.slice(0, 5).map((line) => {
-                                    const timeText = Math.floor(line.timeToStation) <= 60 ? "is due" : `in ${Math.floor(line.timeToStation / 60)} mins`;
-                                    return (
-                                        <button
-                                            type="button"
-                                            className="btn btn-dark"
-                                            onClick={() => setSpecificLine(line)}
-                                            key={line.id}
-                                        >
-                                            {line.stationName} to {line.destinationName}  {timeText}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-
-            {specificLine.id !== "0" && (
-                <ul className="list-group">
-                    <li className="list-group-item">
-                        ID: <b>{specificLine.id}</b>
-                    </li>
-                    <li className="list-group-item">
-                        StationName: <b>{specificLine.stationName}</b>
-                    </li>
-                    <li className="list-group-item">
-                        LineName: <b>{specificLine.lineName}</b>
-                    </li>
-                    <li className="list-group-item">
-                        DestinationName:<b> {specificLine.destinationName}</b>
-                    </li>
-                    <li className="list-group-item">
-                        Time to Station: <b>{specificLine.timeToStation}</b>
-                    </li>
-                    <li className="list-group-item">
-
-                        Expected Arrival: <b>({specificLine.expectedArrival})</b>
-                    </li>
-                </ul>
-            )}
-            <br />
-            <button
-                className="previous-pastes"
-                onClick={() =>
-                    setSpecificLine({
-                        $type: "",
-                        id: "0",
-                        operationType: 0,
-                        vehicleId: "",
-                        naptanId: "",
-                        stationName: "",
-                        lineId: "",
-                        lineName: "",
-                        platformName: "",
-                        direction: "",
-                        bearing: "",
-                        destinationNaptanId: "",
-                        destinationName: "",
-                        timestamp: "",
-                        timeToStation: 0,
-                        currentLocation: "",
-                        towards: "",
-                        expectedArrival: "",
-                        timeToLive: "",
-                        modeName: "",
-                        timing: {
-                            $type: "",
-                            countdownServerAdjustment: "",
-                            source: "",
-                            insert: "",
-                            read: "",
-                            sent: "",
-                            received: ""
-                        }
-                    })
-                }
-            >
-                Reset
-            </button>
-            <button className="previous-pastes"
-                onClick={() => setRefreshTimes(true)}
-            >
-                Refresh
-            </button>
-                    </div>
-            <Disruption />
-                </div>
-
-
-            </div>
-
-
-
-
+            <Disruption
+            disruptions={disruptions} 
+            setDisruptions={setDisruptions} 
+            mode={mode} 
+            setMode={setMode} 
+            refresh={refresh}
+            setRefresh={setRefresh}
+            setSpecificDisruption={setSpecificDisruption}
+            specificDisruption={specificDisruption}
+            />
         </>
-
     )
 }

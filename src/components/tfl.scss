@@ -1,0 +1,22 @@
+*{
+    background-color: #242424;
+    color:orange
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 2px solid white;
+    // background-color: orange;
+
+    &__image{
+        width: 30%;
+        // border: 2px solid orange
+    }    
+
+    &__heading{
+        align-self: flex-end;
+        // border: 2px solid black 
+    }
+}
